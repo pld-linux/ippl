@@ -40,7 +40,7 @@ install Source/ippl $RPM_BUILD_ROOT/usr/sbin
 
 install ippl.conf $RPM_BUILD_ROOT/etc
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ippl
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/ippld
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/ippl
 
 install Docs/*.5  $RPM_BUILD_ROOT/usr/man/man5/
 install Docs/*.8  $RPM_BUILD_ROOT/usr/man/man8/
@@ -52,7 +52,7 @@ touch $RPM_BUILD_ROOT/var/log/ippl.log
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/chkconfig --add ippld
+/sbin/chkconfig --add ippl
 if test -r /var/run/ippl.pid; then
 	/etc/rc.d/init.d/ippl stop >&2
 	/etc/rc.d/init.d/ippl start >&2
@@ -64,14 +64,14 @@ chmod 600 /var/log/ippl.log
 
 %preun
 if [ "$0" = "1" ]; then
-	/sbin/chkconfig --del ippld
+	/sbin/chkconfig --del ippl
 	/etc/rc.d/init.d/ippl stop >&2
 fi
 
 %files
 %attr(755,root,root) /usr/sbin/ippl
 %attr(600,root,root) %config(noreplace) /etc/ippl.conf
-%attr(754,root,root) /etc/rc.d/init.d/ippld
+%attr(754,root,root) /etc/rc.d/init.d/ippl
 %attr(600,root,root) %config /etc/logrotate.d/ippl
 %attr(644,root,root) /usr/man/man[58]/*
 %ghost /var/log/ippl.log
