@@ -9,6 +9,7 @@ License:	GPL
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
 Group:		Networking
 Source0:	http://www.via.ecp.fr/~hugo/ippl/archive/dev/%{name}-%{version}.tar.gz
+# Source0-md5:	eaf8d9d7ddd32005342fafd07667795d
 Source1:	%{name}d.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.conf
