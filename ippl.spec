@@ -4,7 +4,7 @@ Summary(pl):	Program loguj±cy informacje na temat protoko³ów IP
 Summary(pt_BR):	Analisador de pacotes IP
 Name:		ippl
 Version:	1.99.5
-Release:	9
+Release:	10
 License:	GPL
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
 Group:		Networking
