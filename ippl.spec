@@ -59,12 +59,22 @@ touch $RPM_BUILD_ROOT/var/log/ippl/{tcp,udp,icmp}.log
 rm -rf $RPM_BUILD_ROOT
 
 %post
-DESC="ippld daemon"; %chkconfig_add
+/sbin/chkconfig --add ippl
+if [ -f /var/lock/subsys/ippl ]; then
+	/etc/rc.d/init.d/ippl restart >&2
+else
+	echo "Run \"/etc/rc.d/init.d/ippl start\" to start ippld daemon."
+fi
 touch /var/log/ippl/{icmp,tcp,udp}.log
 chmod 640 /var/log/ippl/*
 
 %preun
-%chkconfig_del
+if [ "$0" = "1" ]; then
+	if [ -f /var/lock/subsys/ippl ]; then
+		/etc/rc.d/init.d/ippl stop >&2
+	fi
+	/sbin/chkconfig --del ippl
+fi
 
 %files
 %defattr(644,root,root,755)
