@@ -15,6 +15,8 @@ URL:		http://www.via.ecp.fr/~hugo/ippl/
 Prereq:		/sbin/chkconfig
 Requires:	rc-scripts
 Requires:	logrotate
+BuildRequires:	flex
+BuildRequires:	bison
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sysconfdir /etc
