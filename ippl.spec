@@ -1,8 +1,8 @@
 Summary:	IP protocols logger
 Summary(pl):	Program loguj±cy informacje na temat protoko³ów IP
 Name:		ippl
-Version:	1.5.3
-Release:	3
+Version:	1.99.1
+Release:	1
 Copyright:	GPL
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
 Group:		Networking
@@ -28,24 +28,25 @@ Program loguj±cy informacje na temat protoko³ów IP - TCP, UDP oraz ICMP.
 %setup -q
 
 %build
+LDFLAGS="-s"; export LDFLAGS
 %configure \
 	--enable-cache-debug
 
-make LDFLAGS="-s"
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT/{etc/{logrotate.d,rc.d/init.d},var/log} \
 	$RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8}}
-install Source/ippl $RPM_BUILD_ROOT%{_sbindir}
+install source/ippl $RPM_BUILD_ROOT%{_sbindir}
 
 install ippl.conf $RPM_BUILD_ROOT/etc
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ippl
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/ippl
 
-install Docs/*.5  $RPM_BUILD_ROOT%{_mandir}/man5/
-install Docs/*.8  $RPM_BUILD_ROOT%{_mandir}/man8/
+install docs/*.5  $RPM_BUILD_ROOT%{_mandir}/man5/
+install docs/*.8  $RPM_BUILD_ROOT%{_mandir}/man8/
 
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/*
 
@@ -56,7 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add ippl
-if test -r /var/run/ippl.pid; then
+if [ -f /var/lock/subsys/ippl ]; then
 	/etc/rc.d/init.d/ippl restart >&2
 else
 	echo "Run \"/etc/rc.d/init.d/ippl start\" to start ippld daemon."
@@ -66,8 +67,10 @@ chmod 600 /var/log/ippl.log
 
 %preun
 if [ "$0" = "1" ]; then
+	if [ -f /var/lock/subsys/ippl ]; then
+		/etc/rc.d/init.d/ippl stop >&2
+	fi
 	/sbin/chkconfig --del ippl
-	/etc/rc.d/init.d/ippl stop >&2
 fi
 
 %files
