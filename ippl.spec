@@ -2,15 +2,16 @@ Summary:	IP protocols logger
 Summary(pl):	Program loguj±cy informacje na temat protoko³ów IP
 Name:		ippl
 Version:	1.99.5
-Release:	3
+Release:	4
 License:	GPL
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
 Group:		Networking
+Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
 Source0:	http://www.via.ecp.fr/~hugo/ippl/archive/dev/%{name}-%{version}.tar.gz
-Source1:	ippld.init
-Source2:	ippl.logrotate
-Source3:	ippl.conf
+Source1:	%{name}d.init
+Source2:	%{name}.logrotate
+Source3:	%{name}.conf
 URL:		http://www.via.ecp.fr/~hugo/ippl/
 Prereq:		/sbin/chkconfig
 Requires:	rc-scripts
@@ -32,7 +33,6 @@ ICMP.
 %setup -q
 
 %build
-LDFLAGS="-s"; export LDFLAGS
 %configure \
 	--enable-cache-debug
 
@@ -51,8 +51,6 @@ install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/ippl.conf
 
 install docs/*.5  $RPM_BUILD_ROOT%{_mandir}/man5/
 install docs/*.8  $RPM_BUILD_ROOT%{_mandir}/man8/
-
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/*
 
 touch $RPM_BUILD_ROOT/var/log/ippl/{tcp,udp,icmp}.log
 
