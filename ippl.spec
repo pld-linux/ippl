@@ -2,7 +2,7 @@ Summary:	IP protocols logger
 Summary(pl):	Program loguj±cy informacje na temat protoko³ów IP
 Name:		ippl
 Version:	1.5.3
-Release:	1
+Release:	2
 Copyright:	GPL
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
 Group:		Networking
@@ -57,8 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/chkconfig --add ippl
 if test -r /var/run/ippl.pid; then
-	/etc/rc.d/init.d/ippl stop >&2
-	/etc/rc.d/init.d/ippl start >&2
+	/etc/rc.d/init.d/ippl restart >&2
 else
 	echo "Run \"/etc/rc.d/init.d/ippl start\" to start ippld daemon."
 fi
