@@ -44,7 +44,7 @@ O IPPL registra pacotes IP enviados à um sistema.
 
 %build
 aclocal
-autoconf
+%{__autoconf}
 %configure \
 	--enable-cache-debug
 
