@@ -22,7 +22,7 @@
 
 # Check that networking is up.
 if is_no "${NETWORKING}"; then
-	msg_Network_Down "IP protocols logger"
+	msg_network_down "IP protocols logger"
 	exit 1
 fi
 
@@ -34,14 +34,19 @@ case "$1" in
 		msg_starting "IP protocols logger"
 		daemon ippl
 	else
-		msg_Already_Running ippl
+		msg_already_running ippl
 		exit 1
 	fi
 	touch /var/lock/subsys/ippl
 	;;
   stop)
-	msg_stopping "IP protocols logger"
-	killproc ippl
+	if [ -f /var/lock/subsys/ippl ]; then
+		msg_stopping "IP protocols logger"
+		killproc ippl
+	else
+		msg_not_running ippl
+		exit 1
+	fi
 	rm -f /var/lock/subsys/ippl
 	rm -f /var/run/ippl.pid
 	;;
@@ -53,7 +58,7 @@ case "$1" in
 	$0 start
 	;;
   *)
-	msg_Usage "$0 {start|stop|status|restart|reload}"
+	msg_usage "$0 {start|stop|status|restart|reload}"
 	exit 1
 esac
 
