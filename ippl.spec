@@ -25,8 +25,6 @@ Requires:	psmisc >= 20.1
 Obsoletes:	iplog
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_sysconfdir	/etc
-
 %description
 IP protocols logger - logs TCP, UDP and ICMP.
 
