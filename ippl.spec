@@ -27,7 +27,7 @@ Program loguj±cy informacje na temat protoko³ów IP - TCP, UDP oraz ICMP.
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
-./configure %{_target} \
+./configure %{_target_platform} \
 	--prefix=/usr \
 	--enable-cache-debug
 make
