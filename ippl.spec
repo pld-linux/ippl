@@ -42,10 +42,10 @@ install ippl.conf $RPM_BUILD_ROOT/etc
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ippl
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/ippl
 
-install Docs/*.5  $RPM_BUILD_ROOT/usr/man/man5/
-install Docs/*.8  $RPM_BUILD_ROOT/usr/man/man8/
+install Docs/*.5  $RPM_BUILD_ROOT%{_mandir}/man5/
+install Docs/*.8  $RPM_BUILD_ROOT%{_mandir}/man8/
 
-gzip -9nf         $RPM_BUILD_ROOT/usr/man/man*/*
+gzip -9nf         $RPM_BUILD_ROOT%{_mandir}/man*/*
 touch $RPM_BUILD_ROOT/var/log/ippl.log
 
 %clean
@@ -73,7 +73,7 @@ fi
 %attr(600,root,root) %config(noreplace) /etc/ippl.conf
 %attr(754,root,root) /etc/rc.d/init.d/ippl
 %attr(600,root,root) %config /etc/logrotate.d/ippl
-%attr(644,root,root) /usr/man/man[58]/*
+%attr(644,root,root) %{_mandir}/man[58]/*
 %ghost /var/log/ippl.log
 
 %changelog
