@@ -1,25 +1,39 @@
 #!/bin/bash
 #
-# chkconfig: 2345 50 50
-# description: IP protocols logger - logs TCP, UDP and ICMP.
+# ippld		IP protocols logger
 #
-# processname: ippl
-# pidfile: /var/run/ippl.pid
-# config: /etc/ippl.conf
+# chkconfig:	2345 50 50
 #
-# Source function library.
+# description:	IP protocols logger - logs TCP, UDP and ICMP.
+#
+# processname:	ippl
+# pidfile:	/var/run/ippl.pid
+# config:	/etc/ippl.conf
+
+
+# Source function library
 . /etc/rc.d/init.d/functions
 
-# Source networking configuration.
+# Get network config
 . /etc/sysconfig/network
 
+# Get service config
+[ -f /etc/sysconfig/ippld ] && . /etc/sysconfig/ippld
+
 # Check that networking is up.
-[ "${NETWORKING}" = "no" ] && exit 0
+[ "${NETWORKING}" = "no" ] && echo "Error: Networking is down"; exit 0
+
+
 # See how we were called.
 case "$1" in
   start)
-	show "Starting IP protocols logger daemon: "
-	daemon ippl
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/ippl ]; then
+		show Starting IP protocols logger daemon
+		daemon ippl
+	else
+		echo "ippl already is running"
+	fi
 	touch /var/lock/subsys/ippl
 	;;
   stop)
