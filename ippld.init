@@ -37,33 +37,32 @@ case "$1" in
 	if [ ! -f /var/lock/subsys/ippl ]; then
 		msg_starting "IP protocols logger"
 		daemon ippl
+		touch /var/lock/subsys/ippl
 	else
 		msg_already_running ippl
-		exit 1
 	fi
-	touch /var/lock/subsys/ippl
 	;;
   stop)
 	if [ -f /var/lock/subsys/ippl ]; then
 		msg_stopping "IP protocols logger"
 		killproc ippl
+		rm -f /var/lock/subsys/ippl /var/run/ippl.pid >/dev/null 2>&1
 	else
 		msg_not_running ippl
-		exit 1
 	fi
-	rm -f /var/lock/subsys/ippl
-	rm -f /var/run/ippl.pid
 	;;
   status)
 	status ippl
+	exit $?
 	;;
-  restart|reload)
+  restart|force-reload)
 	$0 stop
 	$0 start
+	exit $?
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|status}"
-	exit 1
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
 esac
 
 exit 0
