@@ -24,11 +24,9 @@ case "$1" in
 	;;
   stop)
 	show "Stopping IP protocols logger daemon: "
-	busy
-	if killall -q ippl; then
-	deltext;ok; else deltext; fail
-	fi
+	killproc ippl
 	rm -f /var/lock/subsys/ippl
+	rm -f /var/run/ippl.pid
 	;;
   status)
 	status ippl
