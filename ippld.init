@@ -21,26 +21,26 @@
 [ -f /etc/sysconfig/ippld ] && . /etc/sysconfig/ippld
 
 # Check that networking is up.
-if [ "${NETWORKING}" = "no" ]; then
-	echo "WARNING: Networking is down. Ippl service can't be runed."
+if is_no "${NETWORKING}"; then
+	msg_Network_Down "IP protocols logger"
 	exit 1
 fi
-
 
 # See how we were called.
 case "$1" in
   start)
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/ippl ]; then
-		show "Starting IP protocols logger daemon"
+		msg_starting "IP protocols logger"
 		daemon ippl
 	else
-		echo "ippl already is running"
+		msg_Already_Running ippl
+		exit 1
 	fi
 	touch /var/lock/subsys/ippl
 	;;
   stop)
-	show "Stopping IP protocols logger daemon"
+	msg_stopping "IP protocols logger"
 	killproc ippl
 	rm -f /var/lock/subsys/ippl
 	rm -f /var/run/ippl.pid
@@ -53,7 +53,7 @@ case "$1" in
 	$0 start
 	;;
   *)
-	echo "Usage: $0 {start|stop|status|restart|reload}"
+	msg_Usage "$0 {start|stop|status|restart|reload}"
 	exit 1
 esac
 
