@@ -10,6 +10,7 @@ Group(pl):	Sieciowe
 Source0:	http://www.via.ecp.fr/~hugo/ippl/archive/dev/%{name}-%{version}.tar.gz
 Source1:	ippld.init
 Source2:	ippl.logrotate
+Source3:	ippl.conf
 URL:		http://www.via.ecp.fr/~hugo/ippl/
 Prereq:		/sbin/chkconfig
 Requires:	rc-scripts
@@ -37,20 +38,20 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/{etc/{logrotate.d,rc.d/init.d},var/log} \
+install -d $RPM_BUILD_ROOT/{etc/{logrotate.d,rc.d/init.d},var/log/{archiv/ippl,ippl}} \
 	$RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8}}
 install source/ippl $RPM_BUILD_ROOT%{_sbindir}
 
-install ippl.conf $RPM_BUILD_ROOT/etc
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ippl
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/ippl
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/ippl.conf
 
 install docs/*.5  $RPM_BUILD_ROOT%{_mandir}/man5/
 install docs/*.8  $RPM_BUILD_ROOT%{_mandir}/man8/
 
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/*
 
-touch $RPM_BUILD_ROOT/var/log/ippl.log
+touch $RPM_BUILD_ROOT/var/log/ippl/{tcp,udp,icmp}.log
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -62,8 +63,8 @@ if [ -f /var/lock/subsys/ippl ]; then
 else
 	echo "Run \"/etc/rc.d/init.d/ippl start\" to start ippld daemon."
 fi
-touch /var/log/ippl.log
-chmod 600 /var/log/ippl.log
+touch /var/log/ippl/{icmp,tcp,udp}.log
+chmod 640 /var/log/ippl/*
 
 %preun
 if [ "$0" = "1" ]; then
@@ -75,9 +76,11 @@ fi
 
 %files
 %defattr(644,root,root,755)
+%attr(750,root,root) %dir /var/log/ippl
+%attr(750,root,root) %dir /var/log/archiv/ippl
 %attr(755,root,root) %{_sbindir}/ippl
-%attr(600,root,root) %config(noreplace) /etc/ippl.conf
 %attr(754,root,root) /etc/rc.d/init.d/ippl
-%attr(600,root,root) %config /etc/logrotate.d/ippl
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/ippl.conf
+%attr(640,root,root) %config /etc/logrotate.d/ippl
+%attr(640,root,root) %ghost /var/log/ippl/*
 %{_mandir}/man[58]/*
-%attr(600,root,root) %ghost /var/log/ippl.log
