@@ -14,7 +14,7 @@ Source2:	%{name}.logrotate
 Source3:	%{name}.conf
 URL:		http://www.via.ecp.fr/~hugo/ippl/
 Prereq:		/sbin/chkconfig
-Requires:	rc-scripts
+Prereq:		rc-scripts
 Requires:	logrotate
 BuildRequires:	flex
 BuildRequires:	bison
