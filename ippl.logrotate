@@ -1,5 +1,6 @@
-/var/log/ippld.log {
-	missingok
+/var/log/ippl/* {
+	notifempty
+	olddir /var/log/archiv/ippl
 	postrotate
 		xargs killall -HUP ippld
 	endscript
