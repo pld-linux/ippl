@@ -88,7 +88,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%attr(640,root,root) /etc/logrotate.d/ippl
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/ippl
 %attr(754,root,root) /etc/rc.d/init.d/ippl
 %attr(755,root,root) %{_sbindir}/ippl
 %attr(750,root,root) %dir /var/log/ippl
