@@ -7,9 +7,13 @@ Copyright:	GPL
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
 Group:		Networking
 Group(pl):	Sieciowe
-Source:		http://www.via.ecp.fr/~hugo/ippl/archive/%{name}-%{version}.tar.gz
+Source0:	http://www.via.ecp.fr/~hugo/ippl/archive/%{name}-%{version}.tar.gz
+Source1:	ippld.init
+Source2:	ippl.logrotate
 URL:		http://www.via.ecp.fr/~hugo/ippl/
-Reuires:	rc-scripts
+Prereq:		/sbin/chkconfig
+Requires:	rc-scripts
+Requires:	logrotate
 Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
@@ -22,67 +26,23 @@ Program loguj±cy informacje na temat protoko³ów IP - TCP, UDP oraz ICMP.
 %setup -q
 
 %build
-make TARGETDIR=/usr CFLAGS+="$RPM_OPT_FLAGS"
+make TARGETDIR=/usr CFLAGS+="$RPM_OPT_FLAGS" LDFLAGS="-s"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/{etc/rc.d/init.d,usr/{sbin,man/man{5,8}},var/log}
-install -s Source/ippl $RPM_BUILD_ROOT/usr/sbin
+install -d $RPM_BUILD_ROOT/{etc/{logrotate.d,rc.d/init.d},usr/{sbin,man/man{5,8}},var/log}
+install Source/ippl $RPM_BUILD_ROOT/usr/sbin
+
 install ippl.conf $RPM_BUILD_ROOT/etc
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ippld
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/ippld
+
 install Docs/*.5  $RPM_BUILD_ROOT/usr/man/man5/
 install Docs/*.8  $RPM_BUILD_ROOT/usr/man/man8/
 
 gzip -9nf         $RPM_BUILD_ROOT/usr/man/man*/*
 touch $RPM_BUILD_ROOT/var/log/ippl.log
-
-cat  << EOF > $RPM_BUILD_ROOT/etc/rc.d/init.d/ippld
-#!/bin/bash
-#
-# chkconfig: 2345 50 50
-# description: IP protocols logger - logs TCP, UDP and ICMP.
-#
-# processname: ippl
-# pidfile: /var/run/ippl.pid
-# config: /etc/ippl.conf
-#
-# Source function library.
-. /etc/rc.d/init.d/functions
-
-# Source networking configuration.
-. /etc/sysconfig/network
-
-# Check that networking is up.
-[ "\${NETWORKING}" = "no" ] && exit 0
-# See how we were called.
-case "\$1" in
-  start)
-	show "Starting IP protocols logger daemon: "
-	daemon ippl
-	touch /var/lock/subsys/ippl
-	;;
-  stop)
-	show "Stopping IP protocols logger daemon: "
-	busy
-	if killall -q ippl; then
-	deltext;ok; else deltext; fail
-	fi
-	rm -f /var/lock/subsys/ippl
-	;;
-  status)
-	status ippl
-	;;
-  restart|reload)
-	\$0 stop
-	\$0 /etc/rc.d/init.d/ippl start
-	;;
-  *)
-	echo "Usage: \$0 {start|stop|status|restart|reload}"
-	exit 1
-esac
-
-exit 0
-EOF
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -95,6 +55,8 @@ if test -r /var/run/ippld.pid; then
 else
 	echo "Run \"/etc/rc.d/init.d/ippld start\" to start ippld daemon."
 fi
+touch /var/log/ippl.log
+chmod 600 /var/log/ippl.log
 
 %preun
 if [ "$0" = "1" ]; then
@@ -103,16 +65,26 @@ if [ "$0" = "1" ]; then
 fi
 
 %files
-%defattr(644,root,root,755)
-
 %attr(755,root,root) /usr/sbin/ippl
-%attr(600,root,root) /etc/ippl.conf
+%attr(600,root,root) %config(noreplace) /etc/ippl.conf
 %attr(754,root,root) /etc/rc.d/init.d/ippld
-/usr/man/man[58]/*
+%attr(600,root,root) %config /etc/logrotate.d/ippld
+%attr(644,root,root) /usr/man/man[58]/*
+%ghost /var/log/ippl.log
 
 %changelog
-* Wed Feb  3 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+* Wed Mar  3 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.2-1]
+- rc script to separated Source,
+- added logrotate config file (added also "Requires: logrotate") - for
+  configurations with uncommented logging into file,
+- added %config(noreplace) to /etc/ippl.conf,
+- added "Requires: rc-scripts",
+- LDFLAGS="-s" to make parameters instead stripping on install (faster),
+- added "Prereq: /sbin/chkconfig",
+- added /var/log/ippl.log as %ghost,
+- removed %config from /etc/rc.d/init.d/ippld script,
+- changed permission on /etc/rc.d/init.d/ippld to 754,
 - %post, %postun scripts rewrited to allow restart automatically service on
   upgrade and stopping on remove package,
 - added handling reload parameter to rc scriptc,
