@@ -32,7 +32,7 @@ case "$1" in
   start)
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/ippl ]; then
-		show Starting IP protocols logger daemon
+		show "Starting IP protocols logger daemon"
 		daemon ippl
 	else
 		echo "ippl already is running"
@@ -40,7 +40,7 @@ case "$1" in
 	touch /var/lock/subsys/ippl
 	;;
   stop)
-	show "Stopping IP protocols logger daemon: "
+	show "Stopping IP protocols logger daemon"
 	killproc ippl
 	rm -f /var/lock/subsys/ippl
 	rm -f /var/run/ippl.pid
