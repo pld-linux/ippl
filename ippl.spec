@@ -1,8 +1,10 @@
 Summary:	IP protocols logger
+Summary(es):	Analizador de paquetes IP
 Summary(pl):	Program loguj±cy informacje na temat protoko³ów IP
+Summary(pt_BR):	Analisador de pacotes IP
 Name:		ippl
 Version:	1.99.5
-Release:	8
+Release:	9
 License:	GPL
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
 Group:		Networking
@@ -27,9 +29,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 IP protocols logger - logs TCP, UDP and ICMP.
 
+%description -l es
+Analizador de paquetes IP.
+
 %description -l pl
 Program loguj±cy informacje na temat protoko³ów IP - TCP, UDP oraz
 ICMP.
+
+%description -l pt_BR
+O IPPL registra pacotes IP enviados à um sistema.
 
 %prep
 %setup -q
