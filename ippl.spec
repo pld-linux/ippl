@@ -28,10 +28,10 @@ Program loguj±cy informacje na temat protoko³ów IP - TCP, UDP oraz ICMP.
 %setup -q
 
 %build
-LDFLAGS="-s"; export LDFLAGS
 %configure \
 	--enable-cache-debug
-make
+
+make LDFLAGS="-s"
 
 %install
 rm -rf $RPM_BUILD_ROOT
