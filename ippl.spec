@@ -39,7 +39,7 @@ install -d $RPM_BUILD_ROOT/{etc/{logrotate.d,rc.d/init.d},usr/{sbin,man/man{5,8}
 install Source/ippl $RPM_BUILD_ROOT/usr/sbin
 
 install ippl.conf $RPM_BUILD_ROOT/etc
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ippld
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ippl
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/ippld
 
 install Docs/*.5  $RPM_BUILD_ROOT/usr/man/man5/
@@ -53,11 +53,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add ippld
-if test -r /var/run/ippld.pid; then
-	/etc/rc.d/init.d/ippld stop >&2
-	/etc/rc.d/init.d/ippld start >&2
+if test -r /var/run/ippl.pid; then
+	/etc/rc.d/init.d/ippl stop >&2
+	/etc/rc.d/init.d/ippl start >&2
 else
-	echo "Run \"/etc/rc.d/init.d/ippld start\" to start ippld daemon."
+	echo "Run \"/etc/rc.d/init.d/ippl start\" to start ippld daemon."
 fi
 touch /var/log/ippl.log
 chmod 600 /var/log/ippl.log
@@ -65,14 +65,14 @@ chmod 600 /var/log/ippl.log
 %preun
 if [ "$0" = "1" ]; then
 	/sbin/chkconfig --del ippld
-	/etc/rc.d/init.d/ippld stop >&2
+	/etc/rc.d/init.d/ippl stop >&2
 fi
 
 %files
 %attr(755,root,root) /usr/sbin/ippl
 %attr(600,root,root) %config(noreplace) /etc/ippl.conf
 %attr(754,root,root) /etc/rc.d/init.d/ippld
-%attr(600,root,root) %config /etc/logrotate.d/ippld
+%attr(600,root,root) %config /etc/logrotate.d/ippl
 %attr(644,root,root) /usr/man/man[58]/*
 %ghost /var/log/ippl.log
 
