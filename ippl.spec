@@ -2,7 +2,7 @@ Summary:	IP protocols logger
 Summary(pl):	Program loguj±cy informacje na temat protoko³ów IP
 Name:		ippl
 Version:	1.99.5
-Release:	5
+Release:	6
 License:	GPL
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
 Group:		Networking
@@ -16,6 +16,7 @@ URL:		http://www.via.ecp.fr/~hugo/ippl/
 Prereq:		/sbin/chkconfig
 Prereq:		rc-scripts
 Requires:	logrotate
+Requires:	psmisc >= 20.1
 BuildRequires:	flex
 BuildRequires:	bison
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
