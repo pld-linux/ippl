@@ -43,7 +43,7 @@ O IPPL registra pacotes IP enviados à um sistema.
 %setup -q
 
 %build
-aclocal
+%{__aclocal}
 %{__autoconf}
 %configure \
 	--enable-cache-debug
