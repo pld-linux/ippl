@@ -36,7 +36,8 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/{etc/{logrotate.d,rc.d/init.d},usr/{sbin,man/man{5,8}},var/log}
+install -d $RPM_BUILD_ROOT/{etc/{logrotate.d,rc.d/init.d},var/log} \
+	$RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8}}
 install Source/ippl $RPM_BUILD_ROOT%{_sbindir}
 
 install ippl.conf $RPM_BUILD_ROOT/etc
@@ -46,7 +47,8 @@ install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/ippl
 install Docs/*.5  $RPM_BUILD_ROOT%{_mandir}/man5/
 install Docs/*.8  $RPM_BUILD_ROOT%{_mandir}/man8/
 
-gzip -9nf         $RPM_BUILD_ROOT%{_mandir}/man*/*
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/*
+
 touch $RPM_BUILD_ROOT/var/log/ippl.log
 
 %clean
