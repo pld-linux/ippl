@@ -8,12 +8,12 @@ Release:	9
 License:	GPL
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
 Group:		Networking
-Source0:	http://www.via.ecp.fr/~hugo/ippl/archive/dev/%{name}-%{version}.tar.gz
-# Source0-md5:	eaf8d9d7ddd32005342fafd07667795d
+Source0:	http://pltplp.net/ippl/archive/dev/%{name}-%{version}.tar.gz
+# Source0-md5:	68349a916ed5fa20b43d1712ca70fbbf
 Source1:	%{name}d.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.conf
-URL:		http://www.via.ecp.fr/~hugo/ippl/
+URL:		http://pltplp.net/ippl/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
