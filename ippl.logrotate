@@ -1,4 +1,5 @@
 /var/log/ippld.log {
+	missingok
 	postrotate
 		xargs killall -HUP ippld
 	endscript
