@@ -1,0 +1,7 @@
+/var/log/ippld.log {
+	weekly
+	postrotate
+		xargs killall -HUP ippld
+	endscript
+}
+

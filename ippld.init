@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# chkconfig: 2345 50 50
+# description: IP protocols logger - logs TCP, UDP and ICMP.
+#
+# processname: ippl
+# pidfile: /var/run/ippl.pid
+# config: /etc/ippl.conf
+#
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "\${NETWORKING}" = "no" ] && exit 0
+# See how we were called.
+case "\$1" in
+  start)
+	show "Starting IP protocols logger daemon: "
+	daemon ippl
+	touch /var/lock/subsys/ippl
+	;;
+  stop)
+	show "Stopping IP protocols logger daemon: "
+	busy
+	if killall -q ippl; then
+	deltext;ok; else deltext; fail
+	fi
+	rm -f /var/lock/subsys/ippl
+	;;
+  status)
+	status ippl
+	;;
+  restart|reload)
+	\$0 stop
+	\$0 /etc/rc.d/init.d/ippl start
+	;;
+  *)
+	echo "Usage: \$0 {start|stop|status|restart|reload}"
+	exit 1
+esac
+
+exit 0
