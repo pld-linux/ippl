@@ -18,8 +18,8 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
-PreReq:		/sbin/chkconfig
 PreReq:		rc-scripts
+Requires(post,preun):	/sbin/chkconfig
 Requires:	logrotate
 Requires:	psmisc >= 20.1
 Obsoletes:	iplog
@@ -53,7 +53,7 @@ O IPPL registra pacotes IP enviados à um sistema.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{etc/{logrotate.d,rc.d/init.d},var/log/{archiv/ippl,ippl}} \
+install -d $RPM_BUILD_ROOT{/etc/{logrotate.d,rc.d/init.d},/var/log/{archiv/ippl,ippl}} \
 	$RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{5,8}}
 
 install source/ippl $RPM_BUILD_ROOT%{_sbindir}
