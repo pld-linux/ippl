@@ -1,7 +1,7 @@
 Summary:	IP protocols logger
 Summary(pl):	Program loguj±cy informacje na temat protoko³ów IP
 Name:		ippl
-Version:	1.2.4
+Version:	1.4.3
 Release:	1
 Copyright:	GPL
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
@@ -26,7 +26,11 @@ Program loguj±cy informacje na temat protoko³ów IP - TCP, UDP oraz ICMP.
 %setup -q
 
 %build
-make TARGETDIR=/usr CFLAGS+="$RPM_OPT_FLAGS" LDFLAGS="-s"
+CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
+./configure \
+	--prefix=/usr \
+	--enable-cache-debug
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
