@@ -71,7 +71,7 @@ if [ "$0" = "1" ]; then
 fi
 
 %files
-%deffattr(644,root,root,755)
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/ippl
 %attr(600,root,root) %config(noreplace) /etc/ippl.conf
 %attr(754,root,root) /etc/rc.d/init.d/ippl
