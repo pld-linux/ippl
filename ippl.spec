@@ -15,17 +15,18 @@ Source1:	%{name}d.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.conf
 URL:		http://www.via.ecp.fr/~hugo/ippl/
-Prereq:		/sbin/chkconfig
-Prereq:		rc-scripts
-Requires:	logrotate
-Requires:	psmisc >= 20.1
-BuildRequires:	flex
-BuildRequires:	bison
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	bison
+BuildRequires:	flex
+PreReq:		/sbin/chkconfig
+PreReq:		rc-scripts
+Requires:	logrotate
+Requires:	psmisc >= 20.1
+Obsoletes:	iplog
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_sysconfdir /etc
+%define		_sysconfdir	/etc
 
 %description
 IP protocols logger - logs TCP, UDP and ICMP.
@@ -56,10 +57,12 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ippl
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/ippl
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/ippl.conf
 
-install docs/*.5  $RPM_BUILD_ROOT%{_mandir}/man5/
-install docs/*.8  $RPM_BUILD_ROOT%{_mandir}/man8/
+install docs/*.5 $RPM_BUILD_ROOT%{_mandir}/man5
+install docs/*.8 $RPM_BUILD_ROOT%{_mandir}/man8
 
-touch $RPM_BUILD_ROOT/var/log/ippl/{tcp,udp,icmp}.log
+> $RPM_BUILD_ROOT/var/log/ippl/tcp.log
+> $RPM_BUILD_ROOT/var/log/ippl/udp.log
+> $RPM_BUILD_ROOT/var/log/ippl/icmp.log
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -71,8 +74,6 @@ if [ -f /var/lock/subsys/ippl ]; then
 else
 	echo "Run \"/etc/rc.d/init.d/ippl start\" to start ippld daemon."
 fi
-touch /var/log/ippl/{icmp,tcp,udp}.log
-chmod 640 /var/log/ippl/*
 
 %preun
 if [ "$0" = "1" ]; then
@@ -84,11 +85,11 @@ fi
 
 %files
 %defattr(644,root,root,755)
+%attr(640,root,root) /etc/logrotate.d/ippl
+%attr(754,root,root) /etc/rc.d/init.d/ippl
+%attr(755,root,root) %{_sbindir}/ippl
 %attr(750,root,root) %dir /var/log/ippl
 %attr(750,root,root) %dir /var/log/archiv/ippl
-%attr(755,root,root) %{_sbindir}/ippl
-%attr(754,root,root) /etc/rc.d/init.d/ippl
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ippl.conf
-%attr(640,root,root) %config /etc/logrotate.d/ippl
 %attr(640,root,root) %ghost /var/log/ippl/*
+%attr(640,root,root) %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/ippl.conf
 %{_mandir}/man[58]/*
