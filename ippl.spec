@@ -1,13 +1,12 @@
 Summary:	IP protocols logger
 Summary(pl):	Program loguj±cy informacje na temat protoko³ów IP
 Name:		ippl
-Version:	1.0
+Version:	1.2
 Release:	1d
 Copyright:	GPL
 Group:		Networking
 Group(pl):	Sieciowe
 Source:		http://www.via.ecp.fr/~hugo/ippl/archive/%{name}-%{version}.tar.gz
-Patch:		%{name}-egcs.patch
 URL:		http://www.via.ecp.fr/~hugo/ippl/
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
 Buildroot:	/var/tmp/buildroot-%{name}-%{version}
@@ -20,7 +19,6 @@ Program loguj±cy informacje na temat protoko³ów IP - TCP, UDP oraz ICMP
 
 %prep
 %setup -q
-%patch -p1
 
 %build
 make TARGETDIR=/usr CFLAGS+="$RPM_OPT_FLAGS"
@@ -104,6 +102,9 @@ fi
 %attr(644,root,man)  /usr/man/man[58]/*
 
 %changelog
+* Tue Mar 02 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
+- new upstream release
+
 * Sat Feb 20 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
   [1.0-1d]
 - new upstream release
