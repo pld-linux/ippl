@@ -3,7 +3,7 @@ Summary(pl):	Program loguj±cy informacje na temat protoko³ów IP
 Name:		ippl
 Version:	1.99.1
 Release:	3
-Copyright:	GPL
+License:	GPL
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
 Group:		Networking
 Group(pl):	Sieciowe
@@ -23,7 +23,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 IP protocols logger - logs TCP, UDP and ICMP.
 
 %description -l pl
-Program loguj±cy informacje na temat protoko³ów IP - TCP, UDP oraz ICMP.
+Program loguj±cy informacje na temat protoko³ów IP - TCP, UDP oraz
+ICMP.
 
 %prep
 %setup -q
@@ -44,7 +45,7 @@ install source/ippl $RPM_BUILD_ROOT%{_sbindir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ippl
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/ippl
-install %{SOURCE3} $RPM_BUILD_ROOT/etc/ippl.conf
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/ippl.conf
 
 install docs/*.5  $RPM_BUILD_ROOT%{_mandir}/man5/
 install docs/*.8  $RPM_BUILD_ROOT%{_mandir}/man8/
@@ -80,7 +81,7 @@ fi
 %attr(750,root,root) %dir /var/log/archiv/ippl
 %attr(755,root,root) %{_sbindir}/ippl
 %attr(754,root,root) /etc/rc.d/init.d/ippl
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/ippl.conf
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ippl.conf
 %attr(640,root,root) %config /etc/logrotate.d/ippl
 %attr(640,root,root) %ghost /var/log/ippl/*
 %{_mandir}/man[58]/*
