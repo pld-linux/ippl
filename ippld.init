@@ -14,13 +14,13 @@
 . /etc/sysconfig/network
 
 # Check that networking is up.
-[ "\${NETWORKING}" = "no" ] && exit 0
+[ "${NETWORKING}" = "no" ] && exit 0
 # See how we were called.
-case "\$1" in
+case "$1" in
   start)
 	show "Starting IP protocols logger daemon: "
 	daemon ippl
-	touch /var/lock/subsys/ippl
+	touch /var/lock/subsys/ippld
 	;;
   stop)
 	show "Stopping IP protocols logger daemon: "
@@ -28,17 +28,17 @@ case "\$1" in
 	if killall -q ippl; then
 	deltext;ok; else deltext; fail
 	fi
-	rm -f /var/lock/subsys/ippl
+	rm -f /var/lock/subsys/ippld
 	;;
   status)
 	status ippl
 	;;
   restart|reload)
-	\$0 stop
-	\$0 /etc/rc.d/init.d/ippl start
+	$0 stop
+	$0 /etc/rc.d/init.d/ippld start
 	;;
   *)
-	echo "Usage: \$0 {start|stop|status|restart|reload}"
+	echo "Usage: $0 {start|stop|status|restart|reload}"
 	exit 1
 esac
 
