@@ -36,7 +36,7 @@ make
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT/{etc/{logrotate.d,rc.d/init.d},usr/{sbin,man/man{5,8}},var/log}
-install Source/ippl $RPM_BUILD_ROOT/usr/sbin
+install Source/ippl $RPM_BUILD_ROOT%{_sbindir}
 
 install ippl.conf $RPM_BUILD_ROOT/etc
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ippl
@@ -69,7 +69,7 @@ if [ "$0" = "1" ]; then
 fi
 
 %files
-%attr(755,root,root) /usr/sbin/ippl
+%attr(755,root,root) %{_sbindir}/ippl
 %attr(600,root,root) %config(noreplace) /etc/ippl.conf
 %attr(754,root,root) /etc/rc.d/init.d/ippl
 %attr(600,root,root) %config /etc/logrotate.d/ippl
