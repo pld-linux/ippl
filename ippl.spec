@@ -1,7 +1,7 @@
 Summary:	IP protocols logger
 Summary(pl):	Program loguj±cy informacje na temat protoko³ów IP
 Name:		ippl
-Version:	1.4.3
+Version:	1.4.4
 Release:	1
 Copyright:	GPL
 Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
