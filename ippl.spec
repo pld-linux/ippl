@@ -18,6 +18,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
+BuildRequires:	libpcap-devel
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Requires:	logrotate
@@ -88,11 +89,11 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/ippl
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/ippl
 %attr(754,root,root) /etc/rc.d/init.d/ippl
 %attr(755,root,root) %{_sbindir}/ippl
 %attr(750,root,root) %dir /var/log/ippl
 %attr(750,root,root) %dir /var/log/archiv/ippl
 %attr(640,root,root) %ghost /var/log/ippl/*
-%attr(640,root,root) %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/ippl.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ippl.conf
 %{_mandir}/man[58]/*
