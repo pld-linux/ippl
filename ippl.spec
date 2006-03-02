@@ -6,7 +6,6 @@ Name:		ippl
 Version:	1.99.5
 Release:	10
 License:	GPL
-Vendor:		Hugo Haas & Etienne Bernard <ippl@via.ecp.fr>
 Group:		Networking
 Source0:	http://pltplp.net/ippl/archive/dev/%{name}-%{version}.tar.gz
 # Source0-md5:	68349a916ed5fa20b43d1712ca70fbbf
@@ -19,10 +18,11 @@ BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libpcap-devel
-PreReq:		rc-scripts
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	logrotate
 Requires:	psmisc >= 20.1
+Requires:	rc-scripts
 Obsoletes:	iplog
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -73,17 +73,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add ippl
-if [ -f /var/lock/subsys/ippl ]; then
-	/etc/rc.d/init.d/ippl restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/ippl start\" to start ippld daemon."
-fi
+%service ippl restart "ippld daemon"
 
 %preun
 if [ "$0" = "1" ]; then
-	if [ -f /var/lock/subsys/ippl ]; then
-		/etc/rc.d/init.d/ippl stop >&2
-	fi
+	%service ippl sto
 	/sbin/chkconfig --del ippl
 fi
 
