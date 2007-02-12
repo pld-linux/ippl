@@ -1,7 +1,7 @@
 Summary:	IP protocols logger
-Summary(es):	Analizador de paquetes IP
-Summary(pl):	Program loguj±cy informacje na temat protoko³ów IP
-Summary(pt_BR):	Analisador de pacotes IP
+Summary(es.UTF-8):   Analizador de paquetes IP
+Summary(pl.UTF-8):   Program logujÄ…cy informacje na temat protokoÅ‚Ã³w IP
+Summary(pt_BR.UTF-8):   Analisador de pacotes IP
 Name:		ippl
 Version:	1.99.5
 Release:	11
@@ -29,15 +29,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 IP protocols logger - logs TCP, UDP and ICMP.
 
-%description -l es
+%description -l es.UTF-8
 Analizador de paquetes IP.
 
-%description -l pl
-Program loguj±cy informacje na temat protoko³ów IP - TCP, UDP oraz
+%description -l pl.UTF-8
+Program logujÄ…cy informacje na temat protokoÅ‚Ã³w IP - TCP, UDP oraz
 ICMP.
 
-%description -l pt_BR
-O IPPL registra pacotes IP enviados à um sistema.
+%description -l pt_BR.UTF-8
+O IPPL registra pacotes IP enviados Ã  um sistema.
 
 %prep
 %setup -q
