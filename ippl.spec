@@ -1,7 +1,7 @@
 Summary:	IP protocols logger
-Summary(es.UTF-8):   Analizador de paquetes IP
-Summary(pl.UTF-8):   Program logujący informacje na temat protokołów IP
-Summary(pt_BR.UTF-8):   Analisador de pacotes IP
+Summary(es.UTF-8):	Analizador de paquetes IP
+Summary(pl.UTF-8):	Program logujący informacje na temat protokołów IP
+Summary(pt_BR.UTF-8):	Analisador de pacotes IP
 Name:		ippl
 Version:	1.99.5
 Release:	11
