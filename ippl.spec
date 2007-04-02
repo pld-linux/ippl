@@ -87,7 +87,7 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/ippl
 %attr(755,root,root) %{_sbindir}/ippl
 %attr(750,root,root) %dir /var/log/ippl
-%attr(750,root,root) %dir /var/log/archiv/ippl
+%attr(750,root,root) %dir /var/log/archive/ippl
 %attr(640,root,root) %ghost /var/log/ippl/*
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ippl.conf
 %{_mandir}/man[58]/*
