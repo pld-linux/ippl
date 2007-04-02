@@ -1,6 +1,6 @@
 /var/log/ippl/* {
 	notifempty
-	olddir /var/log/archiv/ippl
+	olddir /var/log/archive/ippl
 	postrotate
 		/bin/killall -HUP ippl
 	endscript
