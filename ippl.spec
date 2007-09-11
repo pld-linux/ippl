@@ -20,7 +20,7 @@ BuildRequires:	flex
 BuildRequires:	libpcap-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
-Requires:	logrotate >= 3.7.4
+Requires:	logrotate >= 3.7-4
 Requires:	psmisc >= 20.1
 Requires:	rc-scripts
 Obsoletes:	iplog
