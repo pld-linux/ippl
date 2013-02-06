@@ -12,6 +12,7 @@ Source0:	http://pltplp.net/ippl/archive/dev/%{name}-%{version}.tar.gz
 Source1:	%{name}d.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.conf
+Patch0:		%{name}-format-security.patch
 URL:		http://pltplp.net/ippl/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -41,6 +42,7 @@ O IPPL registra pacotes IP enviados à um sistema.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__aclocal}

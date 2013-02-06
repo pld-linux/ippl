@@ -1,0 +1,21 @@
+diff -urN ippl-1.99.5/source/log.c ippl-1.99.5.new/source/log.c
+--- ippl-1.99.5/source/log.c	2000-01-29 19:03:21.000000000 +0100
++++ ippl-1.99.5.new/source/log.c	2013-02-06 11:43:38.220086091 +0100
+@@ -55,7 +55,7 @@
+   vsnprintf(buffer, BUFFER_SIZE, format, msg);
+   va_end(msg);
+ 
+-  syslog(LOGLEVEL, buffer);
++  syslog(LOGLEVEL, "%s", buffer);
+ }
+ 
+ /* Dummy close of a logging device */
+@@ -83,7 +83,7 @@
+ void logMessage(int fd, time_t *timestamp, char *msg) {
+   char date[27];
+ 
+-  snprintf(date, 27, asctime(localtime(timestamp)));
++  snprintf(date, 27, "%s", asctime(localtime(timestamp)));
+   write(fd, date+4, strlen(date)-10);
+   write(fd, " ", 1);
+   write(fd, msg, strlen(msg));
